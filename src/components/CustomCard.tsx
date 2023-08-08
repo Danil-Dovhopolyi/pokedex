@@ -1,4 +1,5 @@
 import React from 'react';
+import { PredefinedCategoryColorProvider } from '../services/PredefinedCategoryColorProvider';
 
 interface CustomCardProps {
   name: string;
@@ -13,6 +14,8 @@ const CustomCard: React.FC<CustomCardProps> = ({
   types,
   onClick,
 }) => {
+  const categoryColorProvider = new PredefinedCategoryColorProvider();
+
   return (
     <div
       className="bg-white border rounded-lg p-4 shadow-md cursor-pointer"
@@ -24,7 +27,10 @@ const CustomCard: React.FC<CustomCardProps> = ({
         {types.map((type) => (
           <span
             key={type}
-            className="inline-block bg-blue-500 text-white rounded-md px-2 py-1 mr-2 mb-2"
+            className={`inline-block text-white rounded-md px-2 py-1 mr-2 mb-2`}
+            style={{
+              backgroundColor: categoryColorProvider.provideColor(type),
+            }}
           >
             {type}
           </span>

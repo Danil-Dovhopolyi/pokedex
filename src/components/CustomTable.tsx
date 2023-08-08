@@ -1,3 +1,4 @@
+import React from 'react';
 import { Pokemon } from 'pokenode-ts';
 import {
   Table,
@@ -6,52 +7,86 @@ import {
   TableContainer,
   TableRow,
   Paper,
+  IconButton,
 } from '@material-ui/core';
-import { getPokemonPropertyValue } from '../helpers/getPokemonPropertyValue';
-import React from 'react';
+import { getPokemonStats } from '../helpers/getPokemonStats';
+import CloseIcon from '@material-ui/icons/Close';
 
 interface CustomTableProps {
   data: Pokemon[];
+  onClose(): void;
 }
 
-const CustomTable: React.FC<CustomTableProps> = ({ data }) => {
-  const properties = [
-    { label: 'Types', accessor: 'types' },
-    { label: 'Attack', accessor: 'attack' },
-    { label: 'Defense', accessor: 'defense' },
-    { label: 'HP', accessor: 'hp' },
-    { label: 'Special Attack', accessor: 'special-attack' },
-    { label: 'Special Defense', accessor: 'special-defense' },
-    { label: 'Speed', accessor: 'speed' },
-    { label: 'Weight', accessor: 'weight' },
+const CustomTable: React.FC<CustomTableProps> = ({ data, onClose }) => {
+  const statNames = [
+    'attack',
+    'defense',
+    'special-attack',
+    'special-defense',
+    'speed',
+    'hp',
   ];
 
+  const firstPokemon = data[0];
+
   return (
-    <TableContainer component={Paper} className="max-w-md">
-      <Table aria-label="custom table">
+    <TableContainer component={Paper}>
+      <IconButton onClick={onClose} style={{ float: 'right' }}>
+        <CloseIcon style={{ color: 'red' }} />
+      </IconButton>
+      <Table
+        aria-label="custom table"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div className="flex flex-col items-center">
+          <div>
+            <img
+              src={
+                firstPokemon?.sprites?.front_default ?? 'placeholder-image-url'
+              }
+              alt={firstPokemon.name}
+              width={100}
+              height={100}
+            />
+          </div>
+          <div>{firstPokemon.name}</div>
+        </div>
         <TableBody>
-          {data.map((pokemon) => (
-            <React.Fragment key={pokemon.name}>
-              <TableRow>
-                <TableCell colSpan={2} className="font-medium">
-                  {pokemon.name}
-                </TableCell>
-              </TableRow>
-              {properties.map((property) => (
-                <TableRow key={property.accessor}>
-                  <TableCell className="font-medium">
-                    {property.label}
-                  </TableCell>
-                  <TableCell>
-                    {getPokemonPropertyValue(
-                      pokemon,
-                      property.accessor as keyof Pokemon
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </React.Fragment>
+          {statNames?.map((statName) => (
+            <TableRow key={statName}>
+              <TableCell>
+                <div>{statName}</div>
+              </TableCell>
+              <TableCell>
+                <div>{getPokemonStats(firstPokemon)[statName] || ''}</div>
+              </TableCell>
+            </TableRow>
           ))}
+          <TableRow>
+            <TableCell>
+              <div>Types</div>
+            </TableCell>
+            <TableCell>
+              <div>
+                {firstPokemon?.types
+                  ?.map((typeObj) => typeObj.type.name)
+                  .join(', ')}
+              </div>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <div>Weight</div>
+            </TableCell>
+            <TableCell>
+              <div>{firstPokemon.weight}</div>
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
