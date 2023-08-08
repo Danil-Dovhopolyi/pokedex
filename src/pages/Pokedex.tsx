@@ -49,7 +49,7 @@ function Pokedex() {
   return (
     <div className="bg-gray-100 min-h-screen p-5">
       <div className="flex items-center justify-center">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {pokemonData.map((pokemon) => (
             <CustomCard
               key={pokemon.name}
