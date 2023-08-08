@@ -13,7 +13,6 @@ function Pokedex() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const api = new PokemonClient();
       try {
         const response = await axios.get<NamedAPIResourceList>(
           `https://pokeapi.co/api/v2/pokemon?limit=${API_CONFIG.limit}&offset=${offset}`
@@ -21,6 +20,7 @@ function Pokedex() {
         const pokemonNames = response.data.results.map(
           (pokemon) => pokemon.name
         );
+        const api = new PokemonClient();
         const fetchedData = await Promise.all(
           pokemonNames.map(
             async (name: string) => await api.getPokemonByName(name)
@@ -58,7 +58,7 @@ function Pokedex() {
               imageUrl={
                 pokemon.sprites?.front_default ?? 'placeholder-image-url'
               }
-              types={pokemon.types.map((typeObj) => typeObj.type.name)}
+              types={pokemon?.types.map((typeObj) => typeObj.type.name)}
               onClick={() => handleCardClick(pokemon)}
             />
           ))}

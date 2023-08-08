@@ -47,7 +47,7 @@ const CustomTable: React.FC<CustomTableProps> = ({ data, onClose }) => {
           <div>
             <img
               src={
-                firstPokemon.sprites.front_default ?? 'placeholder-image-url'
+                firstPokemon?.sprites?.front_default ?? 'placeholder-image-url'
               }
               alt={firstPokemon.name}
               width={100}
@@ -57,7 +57,7 @@ const CustomTable: React.FC<CustomTableProps> = ({ data, onClose }) => {
           <div>{firstPokemon.name}</div>
         </div>
         <TableBody>
-          {statNames.map((statName) => (
+          {statNames?.map((statName) => (
             <TableRow key={statName}>
               <TableCell>
                 <div>{statName}</div>
@@ -73,8 +73,8 @@ const CustomTable: React.FC<CustomTableProps> = ({ data, onClose }) => {
             </TableCell>
             <TableCell>
               <div>
-                {firstPokemon.types
-                  .map((typeObj) => typeObj.type.name)
+                {firstPokemon?.types
+                  ?.map((typeObj) => typeObj.type.name)
                   .join(', ')}
               </div>
             </TableCell>
