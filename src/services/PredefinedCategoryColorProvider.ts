@@ -13,8 +13,10 @@ export class PredefinedCategoryColorProvider implements ICategoryColorProvider {
   }
 
   public provideColor(category: string): string {
-    return (
-      this.categoryColors.get(category) ?? this.categoryColors.get('default')!
-    );
+    const color = this.categoryColors.get(category);
+    if (color === null || color === undefined) {
+      return this.categoryColors.get('default')!;
+    }
+    return color;
   }
 }

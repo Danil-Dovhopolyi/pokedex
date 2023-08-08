@@ -4,6 +4,7 @@ import { PokemonClient, Pokemon, NamedAPIResourceList } from 'pokenode-ts';
 import CustomTable from '../components/CustomTable';
 import axios from 'axios';
 import { API_CONFIG } from '../config/apiConfig';
+import { toast } from 'react-toastify';
 
 function Pokedex() {
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
@@ -27,7 +28,7 @@ function Pokedex() {
         );
         setPokemonData((prevData) => [...prevData, ...fetchedData]);
       } catch (error) {
-        console.error('Error fetching Pokemon data:', error);
+        toast.error('An error occurred while fetching Pokemon data.');
       }
     };
 
@@ -55,7 +56,7 @@ function Pokedex() {
               key={pokemon.name}
               name={pokemon.name}
               imageUrl={
-                pokemon.sprites.front_default ?? 'placeholder-image-url'
+                pokemon.sprites?.front_default ?? 'placeholder-image-url'
               }
               types={pokemon.types.map((typeObj) => typeObj.type.name)}
               onClick={() => handleCardClick(pokemon)}
