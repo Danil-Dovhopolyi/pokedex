@@ -4,7 +4,7 @@ describe('PredefinedCategoryColorProvider', () => {
   const colorProvider = new PredefinedCategoryColorProvider();
   const defaultColor = '#808080';
 
-  it.each([['anyCategory'], ['water']])(
+  it.each(['anyCategory', 'water'])(
     'should return the color in the format #RRGGBB for category %s',
     (category) => {
       const result = colorProvider.provideColor(category);
@@ -32,7 +32,7 @@ describe('PredefinedCategoryColorProvider', () => {
   );
 
   it.each([null, '', undefined, '   '])(
-    'should return the default color for input %s',
+    'should return the default color for bad input %s',
     (input) => {
       const result = colorProvider.provideColor(input!);
       expect(result).toBe(defaultColor);
