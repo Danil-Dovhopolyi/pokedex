@@ -37,6 +37,12 @@ function Pokedex() {
 
   const handleCardClick = (pokemon: Pokemon | null) => {
     setSelectedPokemon(pokemon);
+    if (pokemon) {
+      const tableRef = document.getElementById('table');
+      if (tableRef) {
+        tableRef.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
   const handleCloseTable = () => {

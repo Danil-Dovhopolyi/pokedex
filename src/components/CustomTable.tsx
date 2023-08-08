@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 import { getPokemonStats } from '../helpers/getPokemonStats';
 import CloseIcon from '@material-ui/icons/Close';
-
 interface CustomTableProps {
   data: Pokemon[];
   onClose(): void;
@@ -28,14 +27,13 @@ const CustomTable: React.FC<CustomTableProps> = ({ data, onClose }) => {
   ];
 
   const firstPokemon = data[0];
-
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} id="table">
       <IconButton onClick={onClose} style={{ float: 'right' }}>
         <CloseIcon style={{ color: 'red' }} />
       </IconButton>
       <Table
-        aria-label="custom table"
+        aria-label="table"
         style={{
           display: 'flex',
           flexDirection: 'column',
