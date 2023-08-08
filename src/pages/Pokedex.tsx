@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import CustomCard from '../components/CustomCard';
 import { PokemonClient, Pokemon, NamedAPIResourceList } from 'pokenode-ts';
 import CustomTable from '../components/CustomTable';
@@ -10,7 +10,7 @@ function Pokedex() {
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const [offset, setOffset] = useState<number>(API_CONFIG.initialOffset);
-
+  const tableRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,14 +35,14 @@ function Pokedex() {
     fetchData();
   }, [offset]);
 
+  useEffect(() => {
+    if (selectedPokemon && tableRef.current) {
+      tableRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedPokemon]);
+
   const handleCardClick = (pokemon: Pokemon | null) => {
     setSelectedPokemon(pokemon);
-    if (pokemon) {
-      const tableRef = document.getElementById('table');
-      if (tableRef) {
-        tableRef.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
   };
 
   const handleCloseTable = () => {
@@ -70,7 +70,7 @@ function Pokedex() {
           ))}
         </div>
         {selectedPokemon && (
-          <div className="m-4">
+          <div className="m-4 " ref={tableRef}>
             <CustomTable data={[selectedPokemon]} onClose={handleCloseTable} />
           </div>
         )}
